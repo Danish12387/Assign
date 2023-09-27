@@ -3,103 +3,106 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Expense Calculator</title>
+    <title>Score Tracker</title>
     <style>
-        *{
-            box-sizing: border-box;
+        table{
+            width: 100%;
+            margin-top: 50px;
         }
-        body{
-            font-size: 1.5rem;
-            font-family: sans-serif;
-        }
-        h2{
+        th{
+            background-color: rgb(0, 235, 156);
             text-align: center;
-        }
-        .counter{
-            display: flex;
-            align-items: center;
-            justify-content: space-evenly;
-        }
-        .number{
-            display: flex;
-            align-items: center;
-            justify-content: space-evenly;
-        }
-        .cal{
-            margin: 20px;
-            font-size: 28px;
-        }
-        .input{
-            text-align: center;
-        }
-        button{
-            height: 40px;
-            width: 100px;
-            border-radius: 10px;
-            cursor: pointer;
-            font-size: 16px;
+            font-size: 20px;
             color: white;
-            transition: all .3s ease;
+            border: 1px solid rgb(138, 138, 138);
         }
-        button:hover{
-            transform: scale(1.1);
+        td{
+            text-align: center;
+            font-size: 20px;
+            border: 1px solid rgb(138, 138, 138);
         }
         input{
+            width: 400px;
             height: 40px;
-            border-radius: 10px;
-            font-size: 1.1rem;
-            border: 2px solid grey;
+            font-size: 16px;
         }
-        #inc-btn{
-            background-color: rgb(0, 216, 0);
-            border: 2px solid rgb(0, 172, 0);
+        button{
+            width: 100px;
+            height: 45px;
+            border-radius: 5px;
+            border: none;
+            background-color: rgb(0, 235, 156);
+            cursor: pointer;
+            transition: all .2s ease-in-out;
+            font-size: 15px;
+            color: white;
+            font-weight: bold;
         }
-        #exp-btn{
-            background-color: rgb(255, 0, 0);
-            border: 2px solid rgb(177, 0, 0);
-        }
-        #reset{
-            background-color: rgb(0, 183, 255);
-            border: 2px solid  rgb(0, 183, 255);
+        button:hover{
+            background-color: rgb(0, 197, 131);
         }
     </style>
 </head>
 <body>
-    <h2>Javascript Expense Calculator</h2>
-    <div class="container">
-        <div class="counter">
-            <div id="income" style="color: rgb(3, 182, 3);">Income</div>
-            <div id="expense" style="color: red;">Expense</div>
-            <div id="profit loss" style="color: red;"><span style="color: rgb(3, 182, 3);">Profit</span> Loss</div>
-        </div>
-        <div class="number">
-            <div id="cal-Income" class="cal">0</div>
-            <div id="cal-Expense" class="cal">0</div>
-            <div id="cal-Profit Loss" class="cal">0</div>
-        </div>
-        <div class="input">
-            <input type="number" placeholder="0" id="input">
-            <button id="inc-btn" onclick="Income()">Income</button>
-            <button id="exp-btn" onclick="Expense()">Expense</button>
-            <button id="reset" onclick="Reset()">Reset</button>
-        </div>
-        </div>
-    </div>
+    <input type="text" id="nameInput" placeholder="Name">
+    <input type="text" id="fatherNameInput" placeholder="Father Name">
+    <input type="number" id="scoreInput" placeholder="Score">
+    <button onclick="addEntry()">Submit</button>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Father Name</th>
+                <th>Score</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody id="tableBody">
+            <!-- Data will be added here -->
+        </tbody>
+    </table>
+
+    <!-- <p>Total Score: <span id="totalScore">0</span></p> -->
+
     <script>
-        let CalIncome = document.getElementById('cal-Income')
-        let CalExpense = document.getElementById('cal-Expense')
-        let CalProfitLoss = document.getElementById('cal-Profit Loss')
-        let input = document.getElementById('input')
-        function Income(){
-            CalIncome.innerHTML = input.value
-            CalProfitLoss.innerHTML = input.value
-        }
-        function Expense(){
-            CalExpense.innerHTML = input.value
-            CalProfitLoss.innerHTML = CalProfitLoss.innerHTML - input.value
-        }function Reset(){
-            input.value = ''
-        }
+        // Initialize total score
+let totalScore = 0;
+
+// Function to add entry to the table
+function addEntry() {
+    // Get input values
+    let name = document.getElementById('nameInput').value;
+    let fatherName = document.getElementById('fatherNameInput').value;
+    let score = parseInt(document.getElementById('scoreInput').value);
+
+    // Update total score
+    totalScore += score;
+    
+    // Create a new row
+    let table = document.getElementById('tableBody');
+    let newRow = table.insertRow(-1);
+
+    // Insert data into the row
+    let cell1 = newRow.insertCell(0);
+    let cell2 = newRow.insertCell(1);
+    let cell3 = newRow.insertCell(2);
+    let cell4 = newRow.insertCell(3);
+
+    cell1.innerHTML = name;
+    cell2.innerHTML = fatherName;
+    cell3.innerHTML = score;
+    cell4.innerHTML = totalScore;
+
+    // Clear input fields
+    document.getElementById('nameInput').value = '';
+    document.getElementById('fatherNameInput').value = '';
+    document.getElementById('scoreInput').value = '';
+    
+    // Update total score display
+    // document.getElementById('totalScore').innerHTML = totalScore;
+}
+
     </script>
 </body>
 </html>
