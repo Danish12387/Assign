@@ -3,106 +3,201 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Score Tracker</title>
+    <title>JAVA SCRIPT</title>
     <style>
-        table{
+        body{
+            transition: all .5s ease-out;
+            position: relative;
+            margin: 0px;
+            padding: 0px;
+        }
+        #body-before{
+            content: '';
+            position: absolute;
+            top: 0;
+            height: 100%;
             width: 100%;
-            margin-top: 50px;
+            background-color: rgb(7, 7, 7, .2);
+            display: none;
+            z-index: 1;
         }
-        th{
-            background-color: rgb(0, 235, 156);
+        h1{
             text-align: center;
-            font-size: 20px;
-            color: white;
-            border: 1px solid rgb(138, 138, 138);
         }
-        td{
-            text-align: center;
-            font-size: 20px;
-            border: 1px solid rgb(138, 138, 138);
+        #ImageContainer{
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
         }
-        input{
-            width: 400px;
-            height: 40px;
-            font-size: 16px;
-        }
-        button{
-            width: 100px;
-            height: 45px;
-            border-radius: 5px;
-            border: none;
-            background-color: rgb(0, 235, 156);
+        .img-card{
+            height: 350px;
+            width: 300px;
+            border: 5px solid grey;
+            margin: 20px;
+            border-radius: 10px;
             cursor: pointer;
-            transition: all .2s ease-in-out;
-            font-size: 15px;
-            color: white;
-            font-weight: bold;
+            transition: all .2s ease-out;
         }
-        button:hover{
-            background-color: rgb(0, 197, 131);
+        .img-card:hover{
+            transform: scale(1.05);
+        }
+        #button{
+            text-align: center;
+            height: 50px;
+            width: 120px;
+            background-color: rgb(58, 58, 58);
+            color: white;
+            border: 2px solid grey;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: all .2s ease-out;
+        }
+        #button:hover{
+            background-color: rgb(37, 37, 37);
+            transform: scale(1.05);
+        }
+        #modal{
+            height: 500px;
+            width: 400px;
+            background-color: white;
+            border: 2px solid grey;
+            position: fixed;
+            top: 17%;
+            left: 38%;
+            width: 400px;
+            height: 500px;
+            text-align: center;
+            display: none;
+            transition: all 1s ease-out;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2;
+        }
+        #close-popup{
+            height: 35px;
+            width: 40px;
+            text-align: center;
+            cursor: pointer;
+            color: black;
+            border-radius: 10px;
+            background-color: rgb(0, 0, 0, .1);
+            font-weight: bold;
+            position: fixed;
+            top: 50px;
+            right: 100px;
+            font-size: 30px;
+            display: none;
+            z-index: 5;
+        }
+        #modal-img{
+            height: 90%;
+            width: 90%;
+            margin-top: 30px;
+        }
+        #container{
+            text-align: center;
+        }
+        h1{
+            margin: 0px;
+            padding-top: 10px;
+            margin-bottom: 15px;
         }
     </style>
 </head>
 <body>
-    <input type="text" id="nameInput" placeholder="Name">
-    <input type="text" id="fatherNameInput" placeholder="Father Name">
-    <input type="number" id="scoreInput" placeholder="Score">
-    <button onclick="addEntry()">Submit</button>
-
-    <table>
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Father Name</th>
-                <th>Score</th>
-                <th>Total</th>
-            </tr>
-        </thead>
-        <tbody id="tableBody">
-            <!-- Data will be added here -->
-        </tbody>
-    </table>
-
-    <!-- <p>Total Score: <span id="totalScore">0</span></p> -->
-
+    <div id="body-before"></div>
+    <div id="container">
+        <h1>Image Gallery</h1>
+        <button id="button">Change Theme</button>
+        <span id="close-popup">&times;</span>
+        <div id="modal">
+            <img src="" alt="" id="modal-img">
+        </div>
+        <div id="ImageContainer"></div>
+    </div>
     <script>
-        // Initialize total score
-let totalScore = 0;
+        const imageArray = [
+    "https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_.jpg",
+    "https://fakestoreapi.com/img/71-3HjGNDUL._AC_SY879._SX._UX._SY._UY_.jpg",
+    "https://fakestoreapi.com/img/71li-ujtlUL._AC_UX679_.jpg",
+    "https://fakestoreapi.com/img/71YXzeOuslL._AC_UY879_.jpg",
+    "https://fakestoreapi.com/img/71pWzhdJNwL._AC_UL640_QL65_ML3_.jpg",
+    "https://fakestoreapi.com/img/61sbMiUnoGL._AC_UL640_QL65_ML3_.jpg",
+    "https://fakestoreapi.com/img/71YAIFU48IL._AC_UL640_QL65_ML3_.jpg",
+    "https://fakestoreapi.com/img/51UDEzMJVpL._AC_UL640_QL65_ML3_.jpg",
+    "https://fakestoreapi.com/img/61IBBVJvSDL._AC_SY879_.jpg",
+    "https://fakestoreapi.com/img/61U7T1koQqL._AC_SX679_.jpg",
+    "https://fakestoreapi.com/img/71kWymZ+c+L._AC_SX679_.jpg",
+    "https://fakestoreapi.com/img/61mtL65D4cL._AC_SX679_.jpg",
+    "https://fakestoreapi.com/img/81QpkIctqPL._AC_SX679_.jpg",
+    "https://fakestoreapi.com/img/81Zt42ioCgL._AC_SX679_.jpg",
+    "https://fakestoreapi.com/img/51Y5NI-I5jL._AC_UX679_.jpg",
+    "https://fakestoreapi.com/img/81XH0e8fefL._AC_UY879_.jpg",
+    "https://fakestoreapi.com/img/71HblAHs5xL._AC_UY879_-2.jpg",
+    "https://fakestoreapi.com/img/71z3kpMAYsL._AC_UY879_.jpg",
+    "https://fakestoreapi.com/img/51eg55uWmdL._AC_UX679_.jpg",
+    "https://fakestoreapi.com/img/61pHAEJ4NML._AC_UX679_.jpg"
+];
 
-// Function to add entry to the table
-function addEntry() {
-    // Get input values
-    let name = document.getElementById('nameInput').value;
-    let fatherName = document.getElementById('fatherNameInput').value;
-    let score = parseInt(document.getElementById('scoreInput').value);
-
-    // Update total score
-    totalScore += score;
+    let imgCont = document.getElementById('ImageContainer')
     
-    // Create a new row
-    let table = document.getElementById('tableBody');
-    let newRow = table.insertRow(-1);
+    for(let i = 0; i < imageArray.length; i++){
+        var img = document.createElement('img')
+        img.src = imageArray[i]
+        img.className = 'img-card'
+        img.addEventListener('click', showImagePopup)
+        imgCont.appendChild(img)
+    }
+    let changeThemeFunction = false
+    function changeTheme(){
+        changeThemeFunction = !changeThemeFunction
+        let body = document.body
+        if(changeThemeFunction){
+            body.style.backgroundColor = 'black'
+            body.style.color = 'white'
+        }
+        else{
+            body.style.backgroundColor = 'white'
+            body.style.color = 'black'
+        }
+    }
 
-    // Insert data into the row
-    let cell1 = newRow.insertCell(0);
-    let cell2 = newRow.insertCell(1);
-    let cell3 = newRow.insertCell(2);
-    let cell4 = newRow.insertCell(3);
+    let button = document.getElementById('button')
+    button.addEventListener('click', changeTheme)
 
-    cell1.innerHTML = name;
-    cell2.innerHTML = fatherName;
-    cell3.innerHTML = score;
-    cell4.innerHTML = totalScore;
+    const popup = document.getElementById('modal')
+    const popupClose = document.getElementById('close-popup')
+    const popupImg = document.getElementById('modal-img')
 
-    // Clear input fields
-    document.getElementById('nameInput').value = '';
-    document.getElementById('fatherNameInput').value = '';
-    document.getElementById('scoreInput').value = '';
-    
-    // Update total score display
-    // document.getElementById('totalScore').innerHTML = totalScore;
-}
+    let body = document.body
+    let container = document.getElementById('container')
+    let bodyBefore = document.getElementById('body-before')
+    let closePopup = document.getElementById('close-popup')
 
+    popupClose.addEventListener('click', function(){
+        popup.style.display = 'none'
+        body.style.overflow = 'scroll'
+        container.style.paddingRight = '0px'
+        bodyBefore.style.display = 'none'
+        closePopup.style.display = 'none'
+    })
+
+    function showImagePopup(){
+        // console.log(this.src)
+        popup.style.display = 'block'
+        popup.style.transitionProperty = 'all'
+        popup.style.transitionDuration = '1s'
+        popup.style.transitionTimingFunction = 'ease-in'
+        // popup.style.transitionDelay = '1s'
+        popupImg.src = this.src
+        body.style.overflow = 'hidden'
+        container.style.paddingRight = '17px'
+        bodyBefore.style.display = 'block'
+        closePopup.style.display = 'block'
+    }
     </script>
 </body>
 </html>
